@@ -102,7 +102,7 @@ function Postal:OnInitialize()
 	self.db.RegisterCallback(self, "OnProfileReset", "OnProfileChanged")
 
 	-- Enable/disable modules based on saved settings
-	for name, module in self:IterateModules() do 
+	for name, module in self:IterateModules() do
 		module:SetEnabledState(self.db.profile.ModuleEnabledState[name] or false)
 		if module.OnEnable then
 			hooksecurefunc(module, "OnEnable", self.OnModuleEnable_Common) -- Posthook
@@ -116,7 +116,7 @@ function Postal:OnInitialize()
 	local Postal_ModuleMenuButton = CreateFrame("Button", "Postal_ModuleMenuButton", MailFrame)
 	Postal_ModuleMenuButton:SetWidth(25)
 	Postal_ModuleMenuButton:SetHeight(25)
-	Postal_ModuleMenuButton:SetPoint("TOPRIGHT", -53, -12)
+	Postal_ModuleMenuButton:SetPoint("TOPRIGHT", -22, 0)
 	Postal_ModuleMenuButton:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
 	Postal_ModuleMenuButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Round")
 	Postal_ModuleMenuButton:SetDisabledTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Disabled")
@@ -131,7 +131,7 @@ function Postal:OnInitialize()
 	Postal_ModuleMenuButton:SetScript("OnHide", Postal_DropDownMenu.HideMenu)
 
 	-- Create 7 buttons for mouseover on long subject lines
-	for i = 1, 7 do
+	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local b = CreateFrame("Button", "PostalSubjectHover"..i, _G["MailItem"..i])
 		b:SetID(i)
 		b:SetAllPoints(_G["MailItem"..i.."Subject"])
@@ -146,7 +146,7 @@ function Postal:OnInitialize()
 end
 
 function Postal:OnProfileChanged(event, database, newProfileKey)
-	for name, module in self:IterateModules() do 
+	for name, module in self:IterateModules() do
 		if self.db.profile.ModuleEnabledState[name] then
 			module:Enable()
 		else
@@ -244,7 +244,7 @@ function Postal.Menu(self, level)
 		info.notCheckable = nil
 
 		info.keepShownOnClick = 1
-		for name, module in Postal:IterateModules() do 
+		for name, module in Postal:IterateModules() do
 			info.text = L[name]
 			info.func = Postal.ToggleModule
 			info.arg1 = name
@@ -341,7 +341,7 @@ function Postal.Menu(self, level)
 			info.arg1 = "ResetProfile"
 			info.arg2 = nil
 			UIDropDownMenu_AddButton(info, level)
-			
+
 		elseif type(UIDROPDOWNMENU_MENU_VALUE) == "table" and UIDROPDOWNMENU_MENU_VALUE.ModuleMenu then
 			-- Submenus for modules
 			self.levelAdjust = 1
@@ -495,14 +495,14 @@ function Postal:DisableInbox(disable)
 	if disable then
 		if not self:IsHooked("InboxFrame_OnClick") then
 			self:RawHook("InboxFrame_OnClick", noop, true)
-			for i = 1, 7 do
+			for i = 1, INBOXITEMS_TO_DISPLAY do
 				_G["MailItem" .. i .. "ButtonIcon"]:SetDesaturated(1)
 			end
 		end
 	else
 		if self:IsHooked("InboxFrame_OnClick") then
 			self:Unhook("InboxFrame_OnClick")
-			for i = 1, 7 do
+			for i = 1, INBOXITEMS_TO_DISPLAY do
 				_G["MailItem" .. i .. "ButtonIcon"]:SetDesaturated(nil)
 			end
 		end

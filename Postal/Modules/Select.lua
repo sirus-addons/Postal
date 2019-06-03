@@ -49,7 +49,7 @@ local function printTooMuchMail()
 	else
 		Postal:Print(format(L["There are %i more messages not currently shown. More should become available in %i seconds."], lastUnseen, lastTime+61-GetTime()))
 	end
-	
+
 	-- Just print once
 	InboxTooMuchMail.Show = noop
 end
@@ -60,7 +60,7 @@ function Postal_Select:OnEnable()
 		openButton = CreateFrame("Button", "PostalSelectOpenButton", InboxFrame, "UIPanelButtonTemplate")
 		openButton:SetWidth(120)
 		openButton:SetHeight(25)
-		openButton:SetPoint("RIGHT", InboxFrame, "TOP", 5, -53)
+		openButton:SetPoint("BOTTOM", InboxFrame.LeftContainer, "TOP", -40, 3)
 		openButton:SetText(L["Open"])
 		openButton:SetScript("OnClick", function() Postal_Select:HandleSelect(1) end)
 		openButton:SetFrameLevel(openButton:GetFrameLevel() + 1)
@@ -71,33 +71,24 @@ function Postal_Select:OnEnable()
 		returnButton = CreateFrame("Button", "PostalSelectReturnButton", InboxFrame, "UIPanelButtonTemplate")
 		returnButton:SetWidth(120)
 		returnButton:SetHeight(25)
-		returnButton:SetPoint("LEFT", InboxFrame, "TOP", 10, -53)
+		returnButton:SetPoint("LEFT", openButton, "RIGHT", 4, 0)
 		returnButton:SetText(L["Return"])
 		returnButton:SetScript("OnClick", function() Postal_Select:HandleSelect() end)
 		returnButton:SetFrameLevel(returnButton:GetFrameLevel() + 1)
 	end
 
 	--indent to make room for the checkboxes
-	MailItem1:SetPoint("TOPLEFT", "InboxFrame", "TOPLEFT", 48, -80)
-	for i = 1, 7 do
-		_G["MailItem"..i.."ExpireTime"]:SetPoint("TOPRIGHT", "MailItem"..i, "TOPRIGHT", 10, -4)
-		_G["MailItem"..i]:SetWidth(280)
-	end
 
 	--now create the checkboxes
-	for i = 1, 7 do
+	for i = 1, INBOXITEMS_TO_DISPLAY do
 		if not _G["PostalInboxCB"..i] then
 			local CB = CreateFrame("CheckButton", "PostalInboxCB"..i, _G["MailItem"..i], "OptionsCheckButtonTemplate")
 			CB:SetID(i)
-			CB:SetPoint("RIGHT", "MailItem"..i, "LEFT", 1, -5)
+			CB:SetPoint("BOTTOMRIGHT", -26, 0)
 			CB:SetWidth(24)
 			CB:SetHeight(24)
 			CB:SetHitRectInsets(0, 0, 0, 0)
 			CB:SetScript("OnClick", checkboxFunc)
-			local text = CB:CreateFontString("PostalInboxCB"..i.."Text", "BACKGROUND", "GameFontHighlightSmall")
-			text:SetPoint("BOTTOM", CB, "TOP")
-			text:SetText(i)
-			CB.text = text
 		end
 	end
 
@@ -112,7 +103,7 @@ function Postal_Select:OnEnable()
 	-- For enabling after a disable
 	openButton:Show()
 	returnButton:Show()
-	for i = 1, 7 do
+	for i = 1, INBOXITEMS_TO_DISPLAY do
 		_G["PostalInboxCB"..i]:Show()
 	end
 end
@@ -125,7 +116,7 @@ function Postal_Select:OnDisable()
 	openButton:Hide()
 	returnButton:Hide()
 	MailItem1:SetPoint("TOPLEFT", "InboxFrame", "TOPLEFT", 28, -80)
-	for i = 1, 7 do
+	for i = 1, INBOXITEMS_TO_DISPLAY do
 		_G["PostalInboxCB"..i]:Hide()
 		_G["MailItem"..i.."ExpireTime"]:SetPoint("TOPRIGHT", "MailItem"..i, "TOPRIGHT", -4, -4)
 		_G["MailItem"..i]:SetWidth(305)
@@ -139,7 +130,7 @@ function Postal_Select:MAIL_SHOW()
 end
 
 function Postal_Select:ToggleMail(frame)
-	local index = frame:GetID() + (InboxFrame.pageNum - 1) * 7
+	local index = frame:GetID() + (InboxFrame.pageNum - 1) * INBOXITEMS_TO_DISPLAY
 	if lastCheck and IsShiftKeyDown() then
 		-- Sneaky feature to shift-click a checkbox to select every
 		-- mail between the clicked one and the previous click
@@ -199,8 +190,8 @@ function Postal_Select:HandleSelect(mode)
 		self:Unhook("InboxFrame_Update")
 	end
 
-	for i = 1, 7 do
-		local index = i + (InboxFrame.pageNum-1) * 7
+	for i = 1, INBOXITEMS_TO_DISPLAY do
+		local index = i + (InboxFrame.pageNum-1) * INBOXITEMS_TO_DISPLAY
 		local CB = _G["PostalInboxCB"..i]
 		CB:Hide()
 	end
@@ -351,15 +342,14 @@ end
 
 function Postal_Select:InboxFrame_Update()
 	self.hooks["InboxFrame_Update"]()
-	for i = 1, 7 do
-		local index = i + (InboxFrame.pageNum-1)*7
+	for i = 1, INBOXITEMS_TO_DISPLAY do
+		local index = i + (InboxFrame.pageNum-1)*INBOXITEMS_TO_DISPLAY
 		local CB = _G["PostalInboxCB"..i]
 		if index > GetInboxNumItems() then
 			CB:Hide()
 		else
 			CB:Show()
 			CB:SetChecked(selectedMail[index])
-			CB.text:SetText(index)
 		end
 	end
 end

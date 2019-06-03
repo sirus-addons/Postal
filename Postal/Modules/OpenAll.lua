@@ -35,11 +35,7 @@ function Postal_OpenAll:OnEnable()
 		button = CreateFrame("Button", "PostalOpenAllButton", InboxFrame, "UIPanelButtonTemplate")
 		button:SetWidth(120)
 		button:SetHeight(25)
-		if GetLocale() == "frFR" then
-			button:SetPoint("CENTER", InboxFrame, "TOP", -32, -410)
-		else
-			button:SetPoint("CENTER", InboxFrame, "TOP", -22, -410)
-		end
+		button:SetPoint("BOTTOM", InboxFrame.RightContainer, "TOP", 0, 3)
 		button:SetText(L["Open All"])
 		button:SetScript("OnClick", function() Postal_OpenAll:OpenAll() end)
 		button:SetFrameLevel(button:GetFrameLevel() + 1)
@@ -268,7 +264,7 @@ function Postal_OpenAll.ModuleMenu(self, level)
 	local info = self.info
 	wipe(info)
 	local db = Postal.db.profile.OpenAll
-	
+
 	if level == 1 + self.levelAdjust then
 		info.hasArrow = 1
 		info.keepShownOnClick = 1

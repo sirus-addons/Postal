@@ -40,7 +40,7 @@ StaticPopupDialogs["POSTAL_DELETE_MONEY"] = {
 }
 
 function Postal_DoNotWant.Click(self, button, down)
-	selectedID = self.id + (InboxFrame.pageNum-1)*7
+	selectedID = self.id + (InboxFrame.pageNum-1)*INBOXITEMS_TO_DISPLAY
 	local packageIcon, stationeryIcon, sender, subject, money, CODAmount, daysLeft, itemCount, wasRead, wasReturned, textCreated, canReply = GetInboxHeaderInfo(selectedID)
 	selectedIDmoney = money
 	local firstAttachName
@@ -68,7 +68,7 @@ end
 
 function Postal_DoNotWant:OnEnable()
 	-- Create the icons
-	for i = 1, 7 do
+	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local b = _G["MailItem"..i.."ExpireTime"]
 		if not b.returnicon then
 			b.returnicon = CreateFrame("BUTTON", nil, b)
@@ -94,15 +94,15 @@ function Postal_DoNotWant:OnDisable()
 	if self:IsHooked("InboxFrame_Update") then
 		self:Unhook("InboxFrame_Update")
 	end
-	for i = 1, 7 do
+	for i = 1, INBOXITEMS_TO_DISPLAY do
 		_G["MailItem"..i.."ExpireTime"].returnicon:Hide()
 	end
 end
 
 function Postal_DoNotWant:InboxFrame_Update()
 	self.hooks["InboxFrame_Update"]()
-	for i = 1, 7 do
-		local index = i + (InboxFrame.pageNum-1)*7
+	for i = 1, INBOXITEMS_TO_DISPLAY do
+		local index = i + (InboxFrame.pageNum-1)*INBOXITEMS_TO_DISPLAY
 		local b = _G["MailItem"..i.."ExpireTime"].returnicon
 		if index > GetInboxNumItems() then
 			b:Hide()
