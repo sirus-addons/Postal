@@ -43,6 +43,22 @@ end
 --function Postal_Express:OnDisable()
 --end
 
+local CreateTextureMarkup = function(file, fileWidth, fileHeight, width, height, left, right, top, bottom, xOffset, yOffset)
+	return ("|T%s:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d|t"):format(
+		  file
+		, height
+		, width
+		, xOffset or 0
+		, yOffset or 0
+		, fileWidth
+		, fileHeight
+		, left * fileWidth
+		, right * fileWidth
+		, top * fileHeight
+		, bottom * fileHeight
+	);
+end
+
 function Postal_Express:InboxFrameItem_OnEnter(this, motion)
 	self.hooks["InboxFrameItem_OnEnter"](this, motion)
 	local tooltip = GameTooltip
@@ -53,12 +69,12 @@ function Postal_Express:InboxFrameItem_OnEnter(this, motion)
 			local name, itemTexture, count, quality, canUse = GetInboxItem(this.index, i);
 			if name then
 				local itemLink = GetInboxItemLink(this.index, i);
+				local icon = CreateTextureMarkup(itemTexture, 64, 64, 12, 12, 0, 1, 0, 1)
 				if count > 1 then
-					tooltip:AddLine(("%sx%d"):format(itemLink, count))
+					tooltip:AddLine(("%s %sx%d"):format(icon, itemLink, count))
 				else
-					tooltip:AddLine(itemLink)
+					tooltip:AddLine(("%s %s"):format(icon, itemLink))
 				end
-				tooltip:AddTexture(itemTexture)
 			end
 		end
 	end

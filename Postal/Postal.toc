@@ -4,12 +4,12 @@
 ## Author: Xinhuan
 ## X-Credits: Ammo, Rabbit, Grennon, Mikk
 ## X-Category: Mail
-## Notes: |@Version: 1@|Postal: Enhanced Mailbox support
-## Notes-ruRU: |@Version: 1@|Postal: Расширенная поддержка почтового ящика
-## Notes-frFR: |@Version: 1@|Postal: améliorations diverses de l'interface d'envoi/réception de courriers.
-## Notes-esES: |@Version: 1@|Postal: soporte mejorado para el buzon
-## Notes-zhTW: |@Version: 1@|Postal: 強化信箱功能。
-## Notes-zhCN: |@Version: 1@|Postal: 增强信箱功能
+## Notes: |@Version: 2@|Postal: Enhanced Mailbox support
+## Notes-ruRU: |@Version: 2@|Postal: Расширенная поддержка почтового ящика
+## Notes-frFR: |@Version: 2@|Postal: améliorations diverses de l'interface d'envoi/réception de courriers.
+## Notes-esES: |@Version: 2@|Postal: soporte mejorado para el buzon
+## Notes-zhTW: |@Version: 2@|Postal: 強化信箱功能。
+## Notes-zhCN: |@Version: 2@|Postal: 增强信箱功能
 ## OptionalDeps: Ace3
 ## SavedVariables: Postal3DB
 ## X-Curse-Packaged-Version: v3.3.2
