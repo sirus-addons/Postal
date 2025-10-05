@@ -69,11 +69,13 @@ function Postal_Express:InboxFrameItem_OnEnter(this, motion)
 			local name, itemTexture, count, quality, canUse = GetInboxItem(this.index, i);
 			if name then
 				local itemLink = GetInboxItemLink(this.index, i);
-				local icon = CreateTextureMarkup(itemTexture, 64, 64, 12, 12, 0, 1, 0, 1)
-				if count > 1 then
-					tooltip:AddLine(("%s %sx%d"):format(icon, itemLink, count))
-				else
-					tooltip:AddLine(("%s %s"):format(icon, itemLink))
+				if itemLink then
+					local icon = CreateTextureMarkup(itemTexture, 64, 64, 12, 12, 0, 1, 0, 1)
+					if count > 1 then
+						tooltip:AddLine(("%s %sx%d"):format(icon, itemLink, count))
+					else
+						tooltip:AddLine(("%s %s"):format(icon, itemLink))
+					end
 				end
 			end
 		end
