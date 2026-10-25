@@ -169,7 +169,7 @@ function Postal_OpenAll:ProcessNext()
 		end
 
 		-- Find next attachment index backwards
-		while not GetInboxItemLink(mailIndex, attachIndex) and attachIndex > 0 do
+		while attachIndex > 0 and not HasInboxItem(mailIndex, attachIndex) do
 			attachIndex = attachIndex - 1
 		end
 
@@ -197,7 +197,7 @@ function Postal_OpenAll:ProcessNext()
 			wait = true
 			-- Find next attachment index backwards
 			local attachIndex2 = attachIndex - 1
-			while not GetInboxItemLink(mailIndex, attachIndex2) and attachIndex2 > 0 do
+			while attachIndex2 > 0 and not HasInboxItem(mailIndex, attachIndex2) do
 				attachIndex2 = attachIndex2 - 1
 			end
 			if attachIndex2 == 0 and msgMoney == 0 then lastItem = true end

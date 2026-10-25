@@ -31,7 +31,6 @@ local defaults = {
 		Express = {
 			EnableAltClick = true,
 			AutoSend = true,
-			MouseWheel = true,
 			MultiItemTooltip = true,
 		},
 		BlackBook = {
@@ -75,7 +74,7 @@ end
 
 -- Functions for long subject mouseover
 local function subjectHoverIn(self)
-	local s = _G["MailItem"..self:GetID().."Subject"]
+	local s = _G[self:GetName().."Subject"]
 	if s:GetStringWidth() + 25 > s:GetWidth() then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:SetText(s:GetText())
@@ -83,7 +82,9 @@ local function subjectHoverIn(self)
 	end
 end
 local function subjectHoverOut(self)
-	GameTooltip:Hide()
+	if GameTooltip:IsOwned(self) then
+		GameTooltip:Hide()
+	end
 end
 
 
@@ -116,7 +117,7 @@ function Postal:OnInitialize()
 	local Postal_ModuleMenuButton = CreateFrame("Button", "Postal_ModuleMenuButton", MailFrame)
 	Postal_ModuleMenuButton:SetWidth(25)
 	Postal_ModuleMenuButton:SetHeight(25)
-	Postal_ModuleMenuButton:SetPoint("TOPRIGHT", -22, 0)
+	Postal_ModuleMenuButton:SetPoint("TOPRIGHT", -23, 0)
 	Postal_ModuleMenuButton:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
 	Postal_ModuleMenuButton:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Round")
 	Postal_ModuleMenuButton:SetDisabledTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Disabled")
@@ -130,13 +131,10 @@ function Postal:OnInitialize()
 	end)
 	Postal_ModuleMenuButton:SetScript("OnHide", Postal_DropDownMenu.HideMenu)
 
-	-- Create 7 buttons for mouseover on long subject lines
 	for i = 1, INBOXITEMS_TO_DISPLAY do
-		local b = CreateFrame("Button", "PostalSubjectHover"..i, _G["MailItem"..i])
-		b:SetID(i)
-		b:SetAllPoints(_G["MailItem"..i.."Subject"])
-		b:SetScript("OnEnter", subjectHoverIn)
-		b:SetScript("OnLeave", subjectHoverOut)
+		local mail = _G["MailItem"..i]
+		mail:HookScript("OnEnter", subjectHoverIn)
+		mail:HookScript("OnLeave", subjectHoverOut)
 	end
 
 	-- To fix Blizzard's bug caused by the new "self:SetFrameLevel(2);"
@@ -170,6 +168,8 @@ function Postal:MAIL_CLOSED()
 		if not select(9, GetInboxHeaderInfo(i)) then return end
 	end
 	MiniMapMailFrame:Hide()
+	local parent = MiniMapMailFrame:GetParent()
+	if parent and parent.Layout then parent:Layout() end
 end
 
 function Postal:Print(...)
@@ -490,32 +490,29 @@ end
 ---------------------------
 
 -- Disable Inbox Clicks
-local function noop() end
+local inboxDisabled
 function Postal:DisableInbox(disable)
-	if disable then
-		if not self:IsHooked("InboxFrame_OnClick") then
-			self:RawHook("InboxFrame_OnClick", noop, true)
-			for i = 1, INBOXITEMS_TO_DISPLAY do
-				_G["MailItem" .. i .. "ButtonIcon"]:SetDesaturated(1)
-			end
-		end
-	else
-		if self:IsHooked("InboxFrame_OnClick") then
-			self:Unhook("InboxFrame_OnClick")
-			for i = 1, INBOXITEMS_TO_DISPLAY do
-				_G["MailItem" .. i .. "ButtonIcon"]:SetDesaturated(nil)
-			end
+	disable = disable and true or nil
+	if disable ~= inboxDisabled then
+		inboxDisabled = disable
+		for i = 1, INBOXITEMS_TO_DISPLAY do
+			_G["MailItem" .. i]:EnableMouse(not disable)
+			_G["MailItem" .. i .. "Button"]:EnableMouse(not disable)
+			_G["MailItem" .. i .. "ButtonIcon"]:SetDesaturated(disable and 1 or nil)
 		end
 	end
 end
 
 -- Return the type of mail a message subject is
+local function SubjectPattern(subject)
+	return (gsub(gsub(subject, "[%(%)%.%[%]%*%+%-%?%^%$]", "%%%0"), "%%s", ".*"))
+end
 local SubjectPatterns = {
-	AHCancelled = gsub(AUCTION_REMOVED_MAIL_SUBJECT, "%%s", ".*"),
-	AHExpired = gsub(AUCTION_EXPIRED_MAIL_SUBJECT, "%%s", ".*"),
-	AHOutbid = gsub(AUCTION_OUTBID_MAIL_SUBJECT, "%%s", ".*"),
-	AHSuccess = gsub(AUCTION_SOLD_MAIL_SUBJECT, "%%s", ".*"),
-	AHWon = gsub(AUCTION_WON_MAIL_SUBJECT, "%%s", ".*"),
+	AHCancelled = SubjectPattern(AUCTION_REMOVED_MAIL_SUBJECT),
+	AHExpired = SubjectPattern(AUCTION_EXPIRED_MAIL_SUBJECT),
+	AHOutbid = SubjectPattern(AUCTION_OUTBID_MAIL_SUBJECT),
+	AHSuccess = SubjectPattern(AUCTION_SOLD_MAIL_SUBJECT),
+	AHWon = SubjectPattern(AUCTION_WON_MAIL_SUBJECT),
 }
 function Postal:GetMailType(msgSubject)
 	if msgSubject then

@@ -6,6 +6,7 @@ Postal_DoNotWant.description = L["Shows a clickable visual icon as to whether a 
 local _G = getfenv(0)
 local selectedID
 local selectedIDmoney
+local icons = {}
 
 StaticPopupDialogs["POSTAL_DELETE_MAIL"] = {
 	text = DELETE_MAIL_CONFIRMATION,
@@ -70,24 +71,26 @@ function Postal_DoNotWant:OnEnable()
 	-- Create the icons
 	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local b = _G["MailItem"..i.."ExpireTime"]
-		if not b.returnicon then
-			b.returnicon = CreateFrame("BUTTON", nil, b)
-			b.returnicon:SetPoint("TOPRIGHT", b, "BOTTOMRIGHT", -5, -1)
-			b.returnicon:SetWidth(16)
-			b.returnicon:SetHeight(16)
-			b.returnicon.texture = b.returnicon:CreateTexture(nil, "BACKGROUND")
-			b.returnicon.texture:SetAllPoints()
-			b.returnicon.texture:SetTexCoord(1, 0, 0, 1) -- flips image left/right
-			b.returnicon.id = i
-			b.returnicon:SetScript("OnClick", Postal_DoNotWant.Click)
-			b.returnicon:SetScript("OnEnter", b:GetScript("OnEnter"))
-			b.returnicon:SetScript("OnLeave", b:GetScript("OnLeave"))
+		local icon = icons[i]
+		if not icon then
+			icon = CreateFrame("BUTTON", nil, b)
+			icons[i] = icon
+			icon:SetPoint("TOPRIGHT", b, "BOTTOMRIGHT", -5, -1)
+			icon:SetWidth(16)
+			icon:SetHeight(16)
+			icon.texture = icon:CreateTexture(nil, "BACKGROUND")
+			icon.texture:SetAllPoints()
+			icon.texture:SetTexCoord(1, 0, 0, 1) -- flips image left/right
+			icon.id = i
+			icon:SetScript("OnClick", Postal_DoNotWant.Click)
+			icon:SetScript("OnEnter", b:GetScript("OnEnter"))
+			icon:SetScript("OnLeave", b:GetScript("OnLeave"))
 		end
 		-- For enabling after a disable
-		b.returnicon:Show()
+		icon:Show()
 	end
 
-	self:RawHook("InboxFrame_Update", true)
+	self:SecureHook("InboxFrame_Update")
 end
 
 function Postal_DoNotWant:OnDisable()
@@ -95,15 +98,14 @@ function Postal_DoNotWant:OnDisable()
 		self:Unhook("InboxFrame_Update")
 	end
 	for i = 1, INBOXITEMS_TO_DISPLAY do
-		_G["MailItem"..i.."ExpireTime"].returnicon:Hide()
+		icons[i]:Hide()
 	end
 end
 
 function Postal_DoNotWant:InboxFrame_Update()
-	self.hooks["InboxFrame_Update"]()
 	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local index = i + (InboxFrame.pageNum-1)*INBOXITEMS_TO_DISPLAY
-		local b = _G["MailItem"..i.."ExpireTime"].returnicon
+		local b = icons[i]
 		if index > GetInboxNumItems() then
 			b:Hide()
 		else

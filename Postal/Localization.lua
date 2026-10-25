@@ -23,7 +23,6 @@ L["Auto-Send on Alt-Click"] = true
 L["BlackBook"] = true
 L["Block incoming trade requests while in a mail session."] = true
 L["|cffeda55fAlt-Click|r to send this item to %s."] = true
-L["|cffeda55fCtrl-Click|r to return it to sender."] = true
 L["|cffeda55fShift-Click|r to take the contents."] = true
 L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by clicking Open or Return.
 |cFFFFCC00*|r You can Shift-Click 2 checkboxes to mass select every mail between the 2 checkboxes.
@@ -32,9 +31,7 @@ L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by 
 |cFFFFCC00*|r Select will skip CoD mails and mails from Blizzard.
 |cFFFFCC00*|r Disable the Verbose option to stop the chat spam while opening mail.]=] ] = true
 L[ [=[|cFFFFCC00*|r Shift-Click to take item/money from mail.
-|cFFFFCC00*|r Ctrl-Click to return mail.
-|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).
-|cFFFFCC00*|r Mousewheel to scroll the inbox.]=] ] = true
+|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).]=] ] = true
 L[ [=[|cFFFFCC00*|r Simple filters are available for various mail types.
 |cFFFFCC00*|r Shift-Click the Open All button to override the filters and take ALL mail.
 |cFFFFCC00*|r OpenAll will never delete any mail (mail without text is auto-deleted by the game when all attached items and gold are taken).
@@ -59,7 +56,6 @@ L["Help"] = true
 L["In Progress"] = true
 L["Keep free space"] = true
 L["Mouse click short cuts for mail."] = true
-L["Mousewheel to scroll Inbox"] = true
 L["Name auto-completion options"] = true
 L["New Profile"] = true
 L["New Profile Name:"] = true
@@ -115,7 +111,6 @@ L["Auto-Send on Alt-Click"] = "Auto-Senden bei Alt-Klick"
 L["BlackBook"] = "Schwarzes Buch"
 L["Block incoming trade requests while in a mail session."] = "Blockt eingehende Handelsversuche von Spielern solange der Briefkasten geöffnet ist."
 L["|cffeda55fAlt-Click|r to send this item to %s."] = "|cffeda55fAlt+Klick|r um diesen Gegenstand an %s zu senden."
-L["|cffeda55fCtrl-Click|r to return it to sender."] = "|cffeda55fStrg+Klick|r um diesen Gegenstand zurückzusenden."
 L["|cffeda55fShift-Click|r to take the contents."] = "|cffeda55fShift+Klick|r um Gegenstand zu entnehmen."
 L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by clicking Open or Return.
 |cFFFFCC00*|r You can Shift-Click 2 checkboxes to mass select every mail between the 2 checkboxes.
@@ -129,12 +124,8 @@ L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by 
 |cFFFFCC00*|r "Auswählen" überspringt Nachnahmesendungen und Nachrichten von Blizzard.
 |cFFFFCC00*|r Deaktiviere den ausführlichen Modus um den Chatspam beim Öffnen von Post abzustellen.]=]
 L[ [=[|cFFFFCC00*|r Shift-Click to take item/money from mail.
-|cFFFFCC00*|r Ctrl-Click to return mail.
-|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).
-|cFFFFCC00*|r Mousewheel to scroll the inbox.]=] ] = [=[|cFFFFCC00*|r Shift-Klick um Gegenstände/Gold aus Nachrichten zu entnehmen.
-|cFFFFCC00*|r Strg-Klick um die Nachricht zurückzuschicken.
-|cFFFFCC00*|r Alt-Klick um einen Gegenstand aus dem Inventar an die ausgehende Nachricht anzuhängen (gleich dem Rechtsklick der Standard-UI).
-|cFFFFCC00*|r Ermöglicht das Durchblättern des Postfachs mit dem Mausrad.]=]
+|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).]=] ] = [=[|cFFFFCC00*|r Shift-Klick um Gegenstände/Gold aus Nachrichten zu entnehmen.
+|cFFFFCC00*|r Alt-Klick um einen Gegenstand aus dem Inventar an die ausgehende Nachricht anzuhängen (gleich dem Rechtsklick der Standard-UI).]=]
 L[ [=[|cFFFFCC00*|r Simple filters are available for various mail types.
 |cFFFFCC00*|r Shift-Click the Open All button to override the filters and take ALL mail.
 |cFFFFCC00*|r OpenAll will never delete any mail (mail without text is auto-deleted by the game when all attached items and gold are taken).
@@ -164,7 +155,6 @@ L["Help"] = "Hilfe"
 L["In Progress"] = "In Bearbeitung"
 L["Keep free space"] = "Platz freihalten"
 L["Mouse click short cuts for mail."] = "Mauskürzel für Nachrichten."
-L["Mousewheel to scroll Inbox"] = "Mausrad zum Durchblättern des Posteingangs"
 L["Name auto-completion options"] = "Optionen für automatisch Namen vervollständigen"
 L["New Profile"] = "Neues Profil"
 L["New Profile Name:"] = "Neuer Profilname:"
@@ -220,7 +210,6 @@ L["Auto-Send on Alt-Click"] = "Auto-Enviar con Alt-click"
 L["BlackBook"] = "Libro Negro"
 L["Block incoming trade requests while in a mail session."] = "Bloquea las solicitudes entrantes de comercio mientras se está en una sesión de correo."
 L["|cffeda55fAlt-Click|r to send this item to %s."] = "|cffeda55fAlt-Clic|r para enviar este objeto a %s"
-L["|cffeda55fCtrl-Click|r to return it to sender."] = "|cffeda55fCtrl-Clic|r para devolverlo al que te lo ha enviado"
 L["|cffeda55fShift-Click|r to take the contents."] = "|cffeda55fMayúsculas-Clic|r para coger el contenido"
 --[==[ L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by clicking Open or Return.
 |cFFFFCC00*|r You can Shift-Click 2 checkboxes to mass select every mail between the 2 checkboxes.
@@ -234,12 +223,8 @@ L["|cffeda55fShift-Click|r to take the contents."] = "|cffeda55fMayúsculas-Clic
 |cFFFFCC00*|r Select will skip CoD mails and mails from Blizzard.
 |cFFFFCC00*|r Disable the Verbose option to stop the chat spam while opening mail.]=] ]==]
 L[ [=[|cFFFFCC00*|r Shift-Click to take item/money from mail.
-|cFFFFCC00*|r Ctrl-Click to return mail.
-|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).
-|cFFFFCC00*|r Mousewheel to scroll the inbox.]=] ] = [=[|cFFFFCC00*|r Shift-Click para coger objetos/dinero del correo.
-|cFFFFCC00*|r Ctrl-Click para devolver el correo.
-|cFFFFCC00*|r Alt-Click para mover un objeto del inventario al correo de salida actual (igual que click derecho en UI predeterminado).
-|cFFFFCC00*|r Rueda del ratón para desplazarse en la bandeja de entrada.]=]
+|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).]=] ] = [=[|cFFFFCC00*|r Shift-Click para coger objetos/dinero del correo.
+|cFFFFCC00*|r Alt-Click para mover un objeto del inventario al correo de salida actual (igual que click derecho en UI predeterminado).]=]
 --[==[ L[ [=[|cFFFFCC00*|r Simple filters are available for various mail types.
 |cFFFFCC00*|r Shift-Click the Open All button to override the filters and take ALL mail.
 |cFFFFCC00*|r OpenAll will never delete any mail (mail without text is auto-deleted by the game when all attached items and gold are taken).
@@ -269,7 +254,6 @@ L["Help"] = "Ayuda"
 L["In Progress"] = "En Progreso"
 -- L["Keep free space"] = "Keep free space"
 L["Mouse click short cuts for mail."] = "Atajos de click del ratón para el correo."
-L["Mousewheel to scroll Inbox"] = "Rueda del ratón para desplazarse en la Bandeja de entrada"
 -- L["Name auto-completion options"] = "Name auto-completion options"
 L["New Profile"] = "Perfil Nuevo"
 L["New Profile Name:"] = "Nombre del Perfil Nuevo:"
@@ -325,7 +309,6 @@ L["Auto-Send on Alt-Click"] = "Envoi auto. au Alt-clic gauche"
 L["BlackBook"] = "BlackBook"
 L["Block incoming trade requests while in a mail session."] = "Bloque les demandes d'échange lors de la consultation du courrier."
 L["|cffeda55fAlt-Click|r to send this item to %s."] = "|cffeda55fAlt-clic gauche|r pour envoyer cet objet à %s."
-L["|cffeda55fCtrl-Click|r to return it to sender."] = "|cffeda55fCtrl-clic gauche|r pour renvoyer à l'expéditeur."
 L["|cffeda55fShift-Click|r to take the contents."] = "|cffeda55fMaj-clic gauche|r pour prendre le contenu."
 L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by clicking Open or Return.
 |cFFFFCC00*|r You can Shift-Click 2 checkboxes to mass select every mail between the 2 checkboxes.
@@ -339,12 +322,8 @@ L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by 
 |cFFFFCC00*|r Select n'ouvrira pas les couriers C.R. ainsi que ceux provenant de Blizzard.
 |cFFFFCC00*|r Désactiver l'option Verbose pour enlever le spam de la fenêtre de discussion pendant l'ouverture du courrier.]=]
 L[ [=[|cFFFFCC00*|r Shift-Click to take item/money from mail.
-|cFFFFCC00*|r Ctrl-Click to return mail.
-|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).
-|cFFFFCC00*|r Mousewheel to scroll the inbox.]=] ] = [=[|cFFFFCC00*|r Shift-clic gauche pour prendre le contenu du courrier.
-|cFFFFCC00*|r Ctrl-clic gauche pour renvoyer le courrier.
-|cFFFFCC00*|r Alt-clic gauche pour déplacer un objet de votre inventaire vers le courrier sortant actuel (même comportement que le clic droit dans l'IU par défaut).
-|cFFFFCC00*|r Molette de la souris pour faire défiler la boîte de réception.]=]
+|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).]=] ] = [=[|cFFFFCC00*|r Shift-clic gauche pour prendre le contenu du courrier.
+|cFFFFCC00*|r Alt-clic gauche pour déplacer un objet de votre inventaire vers le courrier sortant actuel (même comportement que le clic droit dans l'IU par défaut).]=]
 L[ [=[|cFFFFCC00*|r Simple filters are available for various mail types.
 |cFFFFCC00*|r Shift-Click the Open All button to override the filters and take ALL mail.
 |cFFFFCC00*|r OpenAll will never delete any mail (mail without text is auto-deleted by the game when all attached items and gold are taken).
@@ -374,7 +353,6 @@ L["Help"] = "Aide"
 L["In Progress"] = "En cours"
 L["Keep free space"] = "Garder l'espace libre"
 L["Mouse click short cuts for mail."] = "Raccourcis souris pour le courrier."
-L["Mousewheel to scroll Inbox"] = "Molette pour faire défiler la boîte de réception"
 L["Name auto-completion options"] = "Options d'auto-complétion de nom"
 L["New Profile"] = "Nouveau profil"
 L["New Profile Name:"] = "Nom du nouveau profil :"
@@ -430,7 +408,6 @@ L["Auto-Send on Alt-Click"] = "Alt+클릭으로 자동보내기"
 L["BlackBook"] = "주소록"
 L["Block incoming trade requests while in a mail session."] = "우편함을 열고 있는 동안 거래 자동 불가"
 L["|cffeda55fAlt-Click|r to send this item to %s."] = "|cffeda55fAlt-클릭|r %s님에게 아이템 보냄"
-L["|cffeda55fCtrl-Click|r to return it to sender."] = "|cffeda55fCtrl-클릭|r 아이템 반송"
 L["|cffeda55fShift-Click|r to take the contents."] = "|cffeda55fShift-클릭|r 아이템 수취"
 L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by clicking Open or Return.
 |cFFFFCC00*|r You can Shift-Click 2 checkboxes to mass select every mail between the 2 checkboxes.
@@ -444,12 +421,8 @@ L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by 
 |cFFFFCC00*|r 선택된 블라자드 우편물을 받지 않고 무시 합니다.
 |cFFFFCC00*|r 우편함을 열고있는 동안 우편 알림을 중지 합니다.]=]
 L[ [=[|cFFFFCC00*|r Shift-Click to take item/money from mail.
-|cFFFFCC00*|r Ctrl-Click to return mail.
-|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).
-|cFFFFCC00*|r Mousewheel to scroll the inbox.]=] ] = [=[|cFFFFCC00*|r Shift-클릭으로 우편에서 아이템/돈을 바로 취득 합니다.
-|cFFFFCC00*|r Ctrl-클릭으로 우편 반송 합니다.
-|cFFFFCC00*|r Alt-클릭으로 가방에서 아이템을 우편함으로 바로 등록 합니다.(기본 UI의 우-클릭과 같은 기능).
-|cFFFFCC00*|r 마우스휠로 우편함을 스크롤 합니다.]=]
+|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).]=] ] = [=[|cFFFFCC00*|r Shift-클릭으로 우편에서 아이템/돈을 바로 취득 합니다.
+|cFFFFCC00*|r Alt-클릭으로 가방에서 아이템을 우편함으로 바로 등록 합니다.(기본 UI의 우-클릭과 같은 기능).]=]
 L[ [=[|cFFFFCC00*|r Simple filters are available for various mail types.
 |cFFFFCC00*|r Shift-Click the Open All button to override the filters and take ALL mail.
 |cFFFFCC00*|r OpenAll will never delete any mail (mail without text is auto-deleted by the game when all attached items and gold are taken).
@@ -479,7 +452,6 @@ L["Help"] = "도움말"
 L["In Progress"] = "처리중"
 L["Keep free space"] = "빈공백 유지"
 L["Mouse click short cuts for mail."] = "마우스 클릭으로 빠른 우편 보내기"
-L["Mousewheel to scroll Inbox"] = "마우스휠로 우편함 스크롤"
 L["Name auto-completion options"] = "이름 자동완성 설정"
 L["New Profile"] = "새로운 프로필"
 L["New Profile Name:"] = "새로운 프로필 이름:"
@@ -535,7 +507,6 @@ L["Auto-Send on Alt-Click"] = "Автопосылка по Alt+Щелчок мы
 L["BlackBook"] = "Черный список"
 L["Block incoming trade requests while in a mail session."] = "Блокировать все запросы на торговлю во время отправки массовой почты"
 L["|cffeda55fAlt-Click|r to send this item to %s."] = "|cffeda55fAlt+Щелчок|r выслать предмет в адрес %s."
-L["|cffeda55fCtrl-Click|r to return it to sender."] = "|cffeda55fCtrl+Щелчок|r вернуть отправителю."
 L["|cffeda55fShift-Click|r to take the contents."] = "|cffeda55fShift+Щелчок|r взять содержимое."
 L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by clicking Open or Return.
 |cFFFFCC00*|r You can Shift-Click 2 checkboxes to mass select every mail between the 2 checkboxes.
@@ -549,12 +520,8 @@ L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by 
 |cFFFFCC00*|r Выбрав, будет пропускаться CoD почта и почта от Blizzardа.
 |cFFFFCC00*|r Отключите Детальный режим для прекращения спама в чате при открытии почты.]=]
 L[ [=[|cFFFFCC00*|r Shift-Click to take item/money from mail.
-|cFFFFCC00*|r Ctrl-Click to return mail.
-|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).
-|cFFFFCC00*|r Mousewheel to scroll the inbox.]=] ] = [=[|cFFFFCC00*|r Shift-Клик снятие с почты предметов/денег.
-|cFFFFCC00*|r Ctrl-Клик возвращает почту.
-|cFFFFCC00*|r Alt-Клик помещает предмет из вашего инвентаря в исходящую почту (в стандартном UI,правый-клик).
-|cFFFFCC00*|r Колесо мыши прокручивает ящик входящей почты.]=]
+|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).]=] ] = [=[|cFFFFCC00*|r Shift-Клик снятие с почты предметов/денег.
+|cFFFFCC00*|r Alt-Клик помещает предмет из вашего инвентаря в исходящую почту (в стандартном UI,правый-клик).]=]
 L[ [=[|cFFFFCC00*|r Simple filters are available for various mail types.
 |cFFFFCC00*|r Shift-Click the Open All button to override the filters and take ALL mail.
 |cFFFFCC00*|r OpenAll will never delete any mail (mail without text is auto-deleted by the game when all attached items and gold are taken).
@@ -584,7 +551,6 @@ L["Help"] = "Справка"
 L["In Progress"] = "Обрабатывается!"
 L["Keep free space"] = "Оставлять свободное место"
 L["Mouse click short cuts for mail."] = "Щелчки мыши при открытой почте применяются как ссылки"
-L["Mousewheel to scroll Inbox"] = "Листать почту колёсиком мыши"
 L["Name auto-completion options"] = "Опции авто-заполнения имён"
 L["New Profile"] = "Новый профиль"
 L["New Profile Name:"] = "Имя нового профиля:"
@@ -640,7 +606,6 @@ L["Auto-Send on Alt-Click"] = "Alt-点击 自动发送"
 L["BlackBook"] = "黑名单"
 L["Block incoming trade requests while in a mail session."] = "在进行邮件操作中阻止交易请求。"
 L["|cffeda55fAlt-Click|r to send this item to %s."] = "|cffeda55fAlt-点击|r 将该物品发送给%s。"
-L["|cffeda55fCtrl-Click|r to return it to sender."] = "|cffeda55fCtrl-点击|r 将信退给发件人。"
 L["|cffeda55fShift-Click|r to take the contents."] = "|cffeda55fShift-点击|r 获得该邮件的内容副本。"
 L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by clicking Open or Return.
 |cFFFFCC00*|r You can Shift-Click 2 checkboxes to mass select every mail between the 2 checkboxes.
@@ -654,12 +619,8 @@ L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by 
 |cFFFFCC00*|r 选中将跳过付款取信的邮件以及来自暴雪的邮件。
 |cFFFFCC00*|r 关闭消息模式，取信时聊天窗口将不再显示信息。]=]
 L[ [=[|cFFFFCC00*|r Shift-Click to take item/money from mail.
-|cFFFFCC00*|r Ctrl-Click to return mail.
-|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).
-|cFFFFCC00*|r Mousewheel to scroll the inbox.]=] ] = [=[|cFFFFCC00*|r 按住shift点击取走信中的金币或者物品。
-|cFFFFCC00*|r 按住Ctrl点击退信。
-|cFFFFCC00*|r 按住Alt点击背包中的物品，将其添加到附件中（同游戏本身的右键点击）。
-|cFFFFCC00*|r 鼠标滚轮翻页。]=]
+|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).]=] ] = [=[|cFFFFCC00*|r 按住shift点击取走信中的金币或者物品。
+|cFFFFCC00*|r 按住Alt点击背包中的物品，将其添加到附件中（同游戏本身的右键点击）。]=]
 L[ [=[|cFFFFCC00*|r Simple filters are available for various mail types.
 |cFFFFCC00*|r Shift-Click the Open All button to override the filters and take ALL mail.
 |cFFFFCC00*|r OpenAll will never delete any mail (mail without text is auto-deleted by the game when all attached items and gold are taken).
@@ -689,7 +650,6 @@ L["Help"] = "帮助"
 L["In Progress"] = "处理中"
 L["Keep free space"] = "保留背包空间"
 L["Mouse click short cuts for mail."] = "鼠标快捷方式。"
-L["Mousewheel to scroll Inbox"] = "鼠标滚动收件箱"
 L["Name auto-completion options"] = "姓名自动完成选项"
 L["New Profile"] = "新配置"
 L["New Profile Name:"] = "新配置名称："
@@ -745,7 +705,6 @@ L["Auto-Send on Alt-Click"] = "Alt-點擊 自動發送"
 L["BlackBook"] = "聯絡人名冊"
 L["Block incoming trade requests while in a mail session."] = "在處理信件期間拒絕交易要求。"
 L["|cffeda55fAlt-Click|r to send this item to %s."] = "|cffeda55fAlt-點擊: |r將物品寄給%s。"
-L["|cffeda55fCtrl-Click|r to return it to sender."] = "|cffeda55fCtrl-點擊: |r返回信件。"
 L["|cffeda55fShift-Click|r to take the contents."] = "|cffeda55fShift-點擊: |r收取信件。"
 L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by clicking Open or Return.
 |cFFFFCC00*|r You can Shift-Click 2 checkboxes to mass select every mail between the 2 checkboxes.
@@ -759,12 +718,8 @@ L[ [=[|cFFFFCC00*|r Selected mail will be batch opened or returned to sender by 
 |cFFFFCC00*|r 選擇 將跳過CoD信件和暴雪的信件。
 |cFFFFCC00*|r 關閉 消息模式 選項來停止當開啟信件時在聊天框的洗頻。]=]
 L[ [=[|cFFFFCC00*|r Shift-Click to take item/money from mail.
-|cFFFFCC00*|r Ctrl-Click to return mail.
-|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).
-|cFFFFCC00*|r Mousewheel to scroll the inbox.]=] ] = [=[|cFFFFCC00*|r Shift-點擊將從郵件拿取物品/金錢。
-|cFFFFCC00*|r 按Ctrl -點擊將退還信件。
-|cFFFFCC00*|r 按Alt-點擊一件物品將從您的背包移到目前的外寄信件（等同UI默認的右鍵點擊 ） 。
-|cFFFFCC00*|r 用滑鼠滾輪滾動收件匣。]=]
+|cFFFFCC00*|r Alt-Click to move an item from your inventory to the current outgoing mail (same as right click in default UI).]=] ] = [=[|cFFFFCC00*|r Shift-點擊將從郵件拿取物品/金錢。
+|cFFFFCC00*|r 按Alt-點擊一件物品將從您的背包移到目前的外寄信件（等同UI默認的右鍵點擊 ） 。]=]
 L[ [=[|cFFFFCC00*|r Simple filters are available for various mail types.
 |cFFFFCC00*|r Shift-Click the Open All button to override the filters and take ALL mail.
 |cFFFFCC00*|r OpenAll will never delete any mail (mail without text is auto-deleted by the game when all attached items and gold are taken).
@@ -794,7 +749,6 @@ L["Help"] = "幫助"
 L["In Progress"] = "正在處理"
 L["Keep free space"] = "保持背包空位"
 L["Mouse click short cuts for mail."] = "點擊快速收發信件。"
-L["Mousewheel to scroll Inbox"] = "滑鼠滾動收件欄"
 L["Name auto-completion options"] = "名字自動完成選項"
 L["New Profile"] = "新設定檔"
 L["New Profile Name:"] = "新設定檔名稱:"

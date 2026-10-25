@@ -14,6 +14,7 @@ local ignoresortlocale = {
 	["zhTW"] = true,
 }
 local enableAltsMenu
+local sentName
 local Postal_BlackBook_Autocomplete_Flags = {
 	include = AUTOCOMPLETE_FLAG_ALL,
 	exclude = AUTOCOMPLETE_FLAG_NONE,
@@ -41,13 +42,12 @@ function Postal_BlackBook:OnEnable()
 	end
 
 	SendMailNameEditBox:SetHistoryLines(15)
-	self:RawHook("SendMailFrame_Reset", true)
-	self:RawHook("MailFrameTab_OnClick", true)
-	if Postal.db.profile.BlackBook.UseAutoComplete then
-		self:RawHookScript(SendMailNameEditBox, "OnChar")
-	end
-	self:HookScript(SendMailNameEditBox, "OnEditFocusGained")
-	self:RawHook("AutoComplete_Update", true)
+	self:SecureHook("SendMailFrame_SendMail")
+	self:SecureHook("SendMailFrame_Reset")
+	self:SecureHook("MailFrameTab_OnClick")
+	self:SecureHook("AutoCompleteEditBox_AddHighlightedText")
+	self:SecureHookScript(SendMailNameEditBox, "OnEditFocusGained")
+	self:SecureHook("AutoComplete_Update")
 	self:RegisterEvent("MAIL_SHOW")
 
 	local db = Postal.db.profile.BlackBook
@@ -125,10 +125,15 @@ function Postal_BlackBook.DeleteAlt(dropdownbutton, arg1, arg2, checked)
 	CloseDropDownMenus()
 end
 
+function Postal_BlackBook:SendMailFrame_SendMail()
+	sentName = strtrim(SendMailNameEditBox:GetText())
+end
+
 -- Only called on a mail that is sent successfully
 function Postal_BlackBook:SendMailFrame_Reset()
-	local name = strtrim(SendMailNameEditBox:GetText())
-	if name == "" then return self.hooks["SendMailFrame_Reset"]() end
+	local name = sentName
+	sentName = nil
+	if not name or name == "" then return end
 	SendMailNameEditBox:AddHistoryLine(name)
 	local db = Postal.db.profile.BlackBook.recent
 	for k = 1, #db do
@@ -138,7 +143,6 @@ function Postal_BlackBook:SendMailFrame_Reset()
 	for k = #db, 11, -1 do
 		tremove(db, k)
 	end
-	self.hooks["SendMailFrame_Reset"]()
 	if Postal.db.profile.BlackBook.AutoFill then
 		SendMailNameEditBox:SetText(name)
 		SendMailNameEditBox:HighlightText()
@@ -151,7 +155,6 @@ function Postal_BlackBook.ClearRecent(dropdownbutton, arg1, arg2, checked)
 end
 
 function Postal_BlackBook:MailFrameTab_OnClick(button, tab)
-	self.hooks["MailFrameTab_OnClick"](button, tab)
 	if Postal.db.profile.BlackBook.AutoFill and tab == 2 then
 		local name = Postal.db.profile.BlackBook.recent[1]
 		if name and SendMailNameEditBox:GetText() == "" then
@@ -167,19 +170,19 @@ function Postal_BlackBook:OnEditFocusGained(editbox, ...)
 end
 
 function Postal_BlackBook:AutoComplete_Update(editBox, editBoxText, utf8Position, ...)
-	if editBox ~= SendMailNameEditBox or not Postal.db.profile.BlackBook.DisableBlizzardAutoComplete then
-		self.hooks["AutoComplete_Update"](editBox, editBoxText, utf8Position, ...)
+	if editBox == SendMailNameEditBox and Postal.db.profile.BlackBook.DisableBlizzardAutoComplete then
+		AutoComplete_HideIfAttachedTo(editBox)
 	end
 end
 
 -- OnChar fires before OnTextChanged
 -- OnChar does not fire for Backspace, Delete keys that shorten the text
 -- Hook player name autocomplete to look in our dbs first
-function Postal_BlackBook:OnChar(editbox, ...)
-	if editbox:GetUTF8CursorPosition() ~= strlenutf8(editbox:GetText()) then return end
-
+function Postal_BlackBook:AutoCompleteEditBox_AddHighlightedText(editbox, text)
 	local db = Postal.db.profile.BlackBook
-	local text = strupper(editbox:GetText())
+	if editbox ~= SendMailNameEditBox or not db.UseAutoComplete then return end
+
+	text = strupper(text)
 	local textlen = strlen(text)
 	local newname
 
@@ -223,9 +226,6 @@ function Postal_BlackBook:OnChar(editbox, ...)
 			end
 		end
 	end
-
-	-- Call the original Blizzard function to autocomplete and for its popup
-	self.hooks[SendMailNameEditBox].OnChar(editbox, ...)
 
 	-- Set our match if we found one (overriding Blizzard's match if there's one)
 	if newname then
@@ -537,17 +537,7 @@ function Postal_BlackBook.SaveFriendGuildOption(dropdownbutton, arg1, arg2, chec
 end
 
 function Postal_BlackBook.SetAutoComplete(dropdownbutton, arg1, arg2, checked)
-	local self = Postal_BlackBook
 	Postal.db.profile.BlackBook.UseAutoComplete = not checked
-	if checked then
-		if self:IsHooked(SendMailNameEditBox, "OnChar") then
-			self:Unhook(SendMailNameEditBox, "OnChar")
-		end
-	else
-		if not self:IsHooked(SendMailNameEditBox, "OnChar") then
-			self:RawHookScript(SendMailNameEditBox, "OnChar")
-		end
-	end
 end
 
 function Postal_BlackBook.ModuleMenu(self, level)
