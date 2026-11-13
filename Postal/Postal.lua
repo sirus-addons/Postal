@@ -164,6 +164,7 @@ end
 -- Hides the minimap unread mail button if there are no unread mail on closing the mailbox.
 -- Does not scan past the first 50 items since only the first 50 are viewable.
 function Postal:MAIL_CLOSED()
+	StaticPopup_Hide("POSTAL_RETURN_MAIL")
 	for i = 1, GetInboxNumItems() do
 		if not select(9, GetInboxHeaderInfo(i)) then return end
 	end
@@ -226,6 +227,21 @@ StaticPopupDialogs["POSTAL_NEW_PROFILE"] = {
 	timeout = 0,
 	exclusive = 1,
 	whileDead = 1,
+	hideOnEscape = 1
+}
+
+StaticPopupDialogs["POSTAL_RETURN_MAIL"] = {
+	text = CONFIRM_RETURN_INBOX_ITEM_TEXT,
+	button1 = YES,
+	button2 = NO,
+	OnAccept = function(self, data)
+		self.timeLeft = nil
+		data()
+	end,
+	OnShow = StaticPopupDialogs["CONFIRM_RETURN_INBOX_ITEM"].OnShow,
+	OnUpdate = StaticPopupDialogs["CONFIRM_RETURN_INBOX_ITEM"].OnUpdate,
+	OnCancel = StaticPopupDialogs["CONFIRM_RETURN_INBOX_ITEM"].OnCancel,
+	timeout = 0,
 	hideOnEscape = 1
 }
 

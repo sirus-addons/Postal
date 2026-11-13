@@ -60,8 +60,9 @@ function Postal_DoNotWant.Click(self, button, down)
 			DeleteInboxItem(selectedID)
 		end
 	else
-		ReturnInboxItem(selectedID)
+		local index = selectedID
 		StaticPopup_Hide("COD_CONFIRMATION")
+		StaticPopup_Show("POSTAL_RETURN_MAIL", nil, nil, function() ReturnInboxItem(index) end)
 	end
 	selectedID = nil
 	--HideUIPanel(OpenMailFrame)

@@ -62,9 +62,14 @@ function Postal_OpenAll:OnEnable()
 
 	self:RegisterEvent("MAIL_SHOW")
 	-- For enabling after a disable
-	button:Show()
 	Postal_OpenAllMenuButton:SetScript("OnHide", Postal_DropDownMenu.HideMenu)
-	Postal_OpenAllMenuButton:Show()
+	if OpenAllMailButton then
+		button:Hide()
+		Postal_OpenAllMenuButton:Hide()
+	else
+		button:Show()
+		Postal_OpenAllMenuButton:Show()
+	end
 end
 
 function Postal_OpenAll:OnDisable()
@@ -266,6 +271,11 @@ function Postal_OpenAll.ModuleMenu(self, level)
 	local db = Postal.db.profile.OpenAll
 
 	if level == 1 + self.levelAdjust then
+		info.text = L["Open All"]
+		info.func = function() CloseDropDownMenus() Postal_OpenAll:OpenAll() end
+		info.notCheckable = 1
+		UIDropDownMenu_AddButton(info, level)
+
 		info.hasArrow = 1
 		info.keepShownOnClick = 1
 		info.func = self.UncheckHack

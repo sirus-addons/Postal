@@ -82,7 +82,11 @@ function Postal_Select:OnEnable()
 		returnButton:SetHeight(25)
 		returnButton:SetPoint("LEFT", openButton, "RIGHT", 4, 0)
 		returnButton:SetText(L["Return"])
-		returnButton:SetScript("OnClick", function() Postal_Select:HandleSelect() end)
+		returnButton:SetScript("OnClick", function()
+			if next(selectedMail) then
+				StaticPopup_Show("POSTAL_RETURN_MAIL", nil, nil, function() Postal_Select:HandleSelect() end)
+			end
+		end)
 		returnButton:SetFrameLevel(returnButton:GetFrameLevel() + 1)
 	end
 
