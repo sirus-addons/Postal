@@ -62,9 +62,14 @@ function Postal_OpenAll:OnEnable()
 
 	self:RegisterEvent("MAIL_SHOW")
 	-- For enabling after a disable
-	button:Show()
 	Postal_OpenAllMenuButton:SetScript("OnHide", Postal_DropDownMenu.HideMenu)
-	Postal_OpenAllMenuButton:Show()
+	if OpenAllMailButton then
+		button:Hide()
+		Postal_OpenAllMenuButton:Hide()
+	else
+		button:Show()
+		Postal_OpenAllMenuButton:Show()
+	end
 end
 
 function Postal_OpenAll:OnDisable()
@@ -169,7 +174,7 @@ function Postal_OpenAll:ProcessNext()
 		end
 
 		-- Find next attachment index backwards
-		while not GetInboxItemLink(mailIndex, attachIndex) and attachIndex > 0 do
+		while attachIndex > 0 and not HasInboxItem(mailIndex, attachIndex) do
 			attachIndex = attachIndex - 1
 		end
 
@@ -197,7 +202,7 @@ function Postal_OpenAll:ProcessNext()
 			wait = true
 			-- Find next attachment index backwards
 			local attachIndex2 = attachIndex - 1
-			while not GetInboxItemLink(mailIndex, attachIndex2) and attachIndex2 > 0 do
+			while attachIndex2 > 0 and not HasInboxItem(mailIndex, attachIndex2) do
 				attachIndex2 = attachIndex2 - 1
 			end
 			if attachIndex2 == 0 and msgMoney == 0 then lastItem = true end
@@ -266,6 +271,11 @@ function Postal_OpenAll.ModuleMenu(self, level)
 	local db = Postal.db.profile.OpenAll
 
 	if level == 1 + self.levelAdjust then
+		info.text = L["Open All"]
+		info.func = function() CloseDropDownMenus() Postal_OpenAll:OpenAll() end
+		info.notCheckable = 1
+		UIDropDownMenu_AddButton(info, level)
+
 		info.hasArrow = 1
 		info.keepShownOnClick = 1
 		info.func = self.UncheckHack

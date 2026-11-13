@@ -21,6 +21,9 @@ local wait
 local skipFlag
 local invFull
 local lastCheck
+local busy
+local tooMuchMailPrinted
+local subjectWidth
 
 local updateFrame = CreateFrame("Frame")
 updateFrame:Hide()
@@ -36,7 +39,6 @@ updateFrame:SetScript("OnUpdate", function(self, elapsed)
 end)
 
 local lastUnseen,lastTime = 0,0
-local function noop() end
 local function printTooMuchMail()
 	local cur,tot = GetInboxNumItems()
 	if tot-cur ~= lastUnseen or GetTime()-lastTime>=61 then
@@ -51,7 +53,14 @@ local function printTooMuchMail()
 	end
 
 	-- Just print once
-	InboxTooMuchMail.Show = noop
+	tooMuchMailPrinted = true
+end
+
+local function hideTooMuchMail()
+	InboxTooMuchMail:Hide()
+	if not tooMuchMailPrinted then
+		printTooMuchMail()
+	end
 end
 
 function Postal_Select:OnEnable()
@@ -73,11 +82,19 @@ function Postal_Select:OnEnable()
 		returnButton:SetHeight(25)
 		returnButton:SetPoint("LEFT", openButton, "RIGHT", 4, 0)
 		returnButton:SetText(L["Return"])
-		returnButton:SetScript("OnClick", function() Postal_Select:HandleSelect() end)
+		returnButton:SetScript("OnClick", function()
+			if next(selectedMail) then
+				StaticPopup_Show("POSTAL_RETURN_MAIL", nil, nil, function() Postal_Select:HandleSelect() end)
+			end
+		end)
 		returnButton:SetFrameLevel(returnButton:GetFrameLevel() + 1)
 	end
 
 	--indent to make room for the checkboxes
+	subjectWidth = subjectWidth or MailItem1Subject:GetWidth()
+	for i = 1, INBOXITEMS_TO_DISPLAY do
+		_G["MailItem"..i.."Subject"]:SetWidth(subjectWidth - 32)
+	end
 
 	--now create the checkboxes
 	for i = 1, INBOXITEMS_TO_DISPLAY do
@@ -85,19 +102,20 @@ function Postal_Select:OnEnable()
 			local CB = CreateFrame("CheckButton", "PostalInboxCB"..i, _G["MailItem"..i], "OptionsCheckButtonTemplate")
 			CB:SetID(i)
 			CB:SetPoint("BOTTOMRIGHT", -26, 0)
-			CB:SetWidth(24)
-			CB:SetHeight(24)
+			CB:SetWidth(20)
+			CB:SetHeight(20)
 			CB:SetHitRectInsets(0, 0, 0, 0)
 			CB:SetScript("OnClick", checkboxFunc)
 		end
 	end
 
-	self:RawHook("InboxFrame_Update", true)
+	self:SecureHook("InboxFrame_Update")
 	self:RegisterEvent("MAIL_SHOW")
 
 	-- Don't show that silly "Not all of your mail could be delivered. Please delete some
 	-- mail to make room." message under our Open and Return buttons. Print it to chat instead.
-	InboxTooMuchMail.Show = printTooMuchMail
+	self:SecureHook(InboxTooMuchMail, "Show", hideTooMuchMail)
+	tooMuchMailPrinted = nil
 	InboxTooMuchMail:Hide()
 
 	-- For enabling after a disable
@@ -115,13 +133,10 @@ function Postal_Select:OnDisable()
 	end
 	openButton:Hide()
 	returnButton:Hide()
-	MailItem1:SetPoint("TOPLEFT", "InboxFrame", "TOPLEFT", 28, -80)
 	for i = 1, INBOXITEMS_TO_DISPLAY do
 		_G["PostalInboxCB"..i]:Hide()
-		_G["MailItem"..i.."ExpireTime"]:SetPoint("TOPRIGHT", "MailItem"..i, "TOPRIGHT", -4, -4)
-		_G["MailItem"..i]:SetWidth(305)
+		_G["MailItem"..i.."Subject"]:SetWidth(subjectWidth)
 	end
-	InboxTooMuchMail.Show = nil
 end
 
 function Postal_Select:MAIL_SHOW()
@@ -186,9 +201,7 @@ function Postal_Select:HandleSelect(mode)
 
 	--protect the user from changing anything while were in process
 	Postal:DisableInbox(1)
-	if self:IsHooked("InboxFrame_Update") then
-		self:Unhook("InboxFrame_Update")
-	end
+	busy = true
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local index = i + (InboxFrame.pageNum-1) * INBOXITEMS_TO_DISPLAY
@@ -258,7 +271,7 @@ function Postal_Select:ProcessNext()
 			end
 
 			-- Find next attachment index backwards
-			while not GetInboxItemLink(mailIndex, attachIndex) and attachIndex > 0 do
+			while attachIndex > 0 and not HasInboxItem(mailIndex, attachIndex) do
 				attachIndex = attachIndex - 1
 			end
 
@@ -286,7 +299,7 @@ function Postal_Select:ProcessNext()
 				wait = true
 				-- Find next attachment index backwards
 				local attachIndex2 = attachIndex - 1
-				while not GetInboxItemLink(mailIndex, attachIndex2) and attachIndex2 > 0 do
+				while attachIndex2 > 0 and not HasInboxItem(mailIndex, attachIndex2) do
 					attachIndex2 = attachIndex2 - 1
 				end
 				if attachIndex2 == 0 and msgMoney == 0 then lastItem = true end
@@ -312,7 +325,7 @@ function Postal_Select:ProcessNext()
 		else
 			-- Return mode
 			if Postal.db.profile.Select.SpamChat and attachIndex == ATTACHMENTS_MAX_RECEIVE then
-				Postal:Print(L["Return"].." "..mailIndex..": "..msgSubject)
+				Postal:Print(L["Return"].." "..mailIndex..": "..(msgSubject or ""))
 			end
 			if not wasReturned and canReply then
 				self:RegisterEvent("MAIL_INBOX_UPDATE")
@@ -320,7 +333,7 @@ function Postal_Select:ProcessNext()
 				selectedMail[mailIndex] = nil
 				mailIndex = mailIndex - 1
 			else
-				Postal:Print(L["Skipping"].." "..mailIndex..": "..msgSubject)
+				Postal:Print(L["Skipping"].." "..mailIndex..": "..(msgSubject or ""))
 				mailIndex = mailIndex - 1
 				return self:ProcessNext() -- tail call
 			end
@@ -341,7 +354,7 @@ function Postal_Select:ProcessNext()
 end
 
 function Postal_Select:InboxFrame_Update()
-	self.hooks["InboxFrame_Update"]()
+	if busy then return end
 	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local index = i + (InboxFrame.pageNum-1)*INBOXITEMS_TO_DISPLAY
 		local CB = _G["PostalInboxCB"..i]
@@ -361,7 +374,7 @@ function Postal_Select:MAIL_INBOX_UPDATE()
 end
 
 function Postal_Select:Reset(event)
-	if not self:IsHooked("InboxFrame_Update") then self:RawHook("InboxFrame_Update", true) end
+	busy = nil
 
 	updateFrame:Hide()
 	self:UnregisterEvent("UI_ERROR_MESSAGE")
@@ -369,7 +382,7 @@ function Postal_Select:Reset(event)
 	wipe(selectedMail)
 
 	Postal:DisableInbox()
-	self:InboxFrame_Update()
+	InboxFrame_Update()
 	openButton:SetText(L["Open"])
 	openButton:Show()
 	returnButton:SetText(L["Return"])
@@ -379,7 +392,7 @@ function Postal_Select:Reset(event)
 		self:UnregisterEvent("MAIL_CLOSED")
 		self:UnregisterEvent("PLAYER_LEAVING_WORLD")
 	end
-	InboxTooMuchMail.Show = printTooMuchMail
+	tooMuchMailPrinted = nil
 end
 
 function Postal_Select:UI_ERROR_MESSAGE(event, error_message)

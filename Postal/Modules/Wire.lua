@@ -7,6 +7,9 @@ local g, s, c
 g = "^%["..GOLD_AMOUNT.." "..SILVER_AMOUNT.." "..COPPER_AMOUNT.."%]$"
 s = "^%["..SILVER_AMOUNT.." "..COPPER_AMOUNT.."%]$"
 c = "^%["..COPPER_AMOUNT.."%]$"
+g = gsub(g, "%%d", "%%d+")
+s = gsub(s, "%%d", "%%d+")
+c = gsub(c, "%%d", "%%d+")
 if GetLocale() == "ruRU" then
 	--Because ruRU has these escaped strings which can't be in mail subjects.
 	--COPPER_AMOUNT = "%d |4медная монета:медные монеты:медных монет;"; -- Lowest value coin denomination
@@ -16,9 +19,6 @@ if GetLocale() == "ruRU" then
 	s = "^%[%d+с %d+м%]$"
 	c = "^%[%d+м%]$"
 end
-g = gsub(g, "%%d", "%%d+")
-s = gsub(s, "%%d", "%%d+")
-c = gsub(c, "%%d", "%%d+")
 
 function Postal_Wire:OnEnable()
 	-- Secure hook so that it calls the original function
@@ -39,11 +39,11 @@ function Postal_Wire:onValueChangedFunc()
 			local copper = mod(money, 100)
 			if GetLocale() == "ruRU" then
 				if gold > 0 then
-					SendMailSubjectEditBox:SetText(format("[%d+з %d+с %d+м]", gold, silver, copper))
+					SendMailSubjectEditBox:SetText(format("[%dз %dс %dм]", gold, silver, copper))
 				elseif silver > 0 then
-					SendMailSubjectEditBox:SetText(format("[%d+с %d+м]", silver, copper))
+					SendMailSubjectEditBox:SetText(format("[%dс %dм]", silver, copper))
 				else
-					SendMailSubjectEditBox:SetText(format("[%d+м]", copper))
+					SendMailSubjectEditBox:SetText(format("[%dм]", copper))
 				end
 			else
 				if gold > 0 then
